@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <style>
+        html {
+            height: 94%;
+        }
+        
+        body {
+            height: 100%;
+        }
+        
+        .container {
+            height: 100%;
+        }
+        
+        .row {
+            height: 100%;
+        }
+        
+        .col {
+            height: 100%;
+        }
+        
+        #Satoshis {
+            text-align: center;
+            font-size: 50px;
+        }
+        
+        #SatoshisTexto {
+            font-size: 20px;
+            text-align: center;
+        }
+        
+        #SatoshisPS {
+            font-size: 15px;
+            text-align: center;
+        }
+        
+        .Minero {
+            max-width: 50px;
+            float: right;
+            padding-right: 5px;
+        }
+        
+        .mineroMaquina {
+            max-width: 40px;
+        }
+        
+        .bitcoins img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            opacity: 1;
+        }
+        
+        .bitcoins img:hover {
+            opacity: 0.8;
+            cursor: pointer;
+        }
+        
+        .bitcoins img:active {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 95%;
+            opacity: 1;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous" />
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="./Bitcoin-Logo.png" alt="" width="40" height="24" class="d-inline-block align-text-top" /> Bitcoin Clicker
+            </a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col border-end">
+                <div id="Satoshis" class="satoshisnumero">0</div>
+                <div id="SatoshisTexto">Satoshis minados</div>
+                <div id="SatoshisPS">0 Satoshis/s</div>
+                <span class="bitcoins"><br />
+            <img src="./Bitcoin-Logo.png" onclick="Minar()" />
+          </span>
+            </div>
+
+            <div class="col">
+                <div class="list-group">
+                    <div class="list-group-item border-0" id="Maquinas"></div>
+                    <div class="list-group-item border-0" id="Maquinas2"></div>
+                    <div class="list-group-item border-0" id="Maquinas3"></div>
+                    <div class="list-group-item border-0" id="Maquinas4"></div>
+                </div>
+                <canvas id="chart"></canvas>
+            </div>
+            <div class="col" id="products">
+                <div class="list-group">
+                    <button type="button" id="Mineros" class="list-group-item list-group-item-action" onclick="ComprarCursor(10)">
+              <img src="8a3501a3a3f3efeb7f19346fd834e039.png" class="Minero" />
+              Mineros<br />
+              <span class="text-danger">10 satoshis <br /></span
+              ><span class="text-success">1 satoshis/s</span>
+            </button>
+                    <button type="button" id="Chinos" class="
+                d-none
+                animate__animated animate__fadeInRightBig
+                list-group-item list-group-item-action
+              " onclick="ComprarCursor(50)">
+              <img src="chino.png" class="Minero" />
+              Chinos<br />
+              <span class="text-danger">50 satoshis <br /></span
+              ><span class="text-success">5 satoshis/s</span>
+            </button>
+                    <button type="button" id="Osos" class="
+                d-none
+                animate__animated animate__fadeInRightBig
+                list-group-item list-group-item-action
+              " onclick="ComprarCursor(100)">
+              <img src="sos.pn.png" class="Minero" />
+              Osos<br />
+              <span class="text-danger">100 satoshis <br /></span
+              ><span class="text-success">10 satoshis/s</span>
+            </button>
+                    <button type="button" id="Ballenas" class="
+                d-none
+                animate__animated animate__fadeInRightBig
+                list-group-item list-group-item-action
+              " onclick="ComprarCursor(500)">
+              <img src="descargar.png" class="Minero" />
+              Ballenas<br />
+              <span class="text-danger">500 satoshis <br /></span
+              ><span class="text-success">50 satoshis/s</span>
+            </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var satosuma = 0;
+        var satoshis = 0;
+        var numMineros = 0;
+        var numChinos = 0;
+        var numOsos = 0;
+        var numBallenas = 0;
+        setInterval(animar, 16.6);
+        setInterval(checarPrecio, 16.6);
+        setInterval(function() {
+            satoshis += satosuma;
+        }, 1000);
+
+        function Minar() {
+            satoshis++;
+        }
+
+        function animar() {
+            console.log(satoshis);
+            document.getElementById("Satoshis").innerHTML =
+                new Intl.NumberFormat().format(satoshis);
+            document.getElementById("SatoshisPS").innerHTML =
+                new Intl.NumberFormat().format(satosuma) + " Satoshis/s";
+            checarPrecio();
+            if (satoshis >= 50) {
+                document.getElementById("Chinos").classList.remove("d-none");
+            }
+            if (satoshis >= 100) {
+                document.getElementById("Osos").classList.remove("d-none");
+            }
+            if (satoshis >= 500) {
+                document.getElementById("Ballenas").classList.remove("d-none");
+            }
+        }
+
+        function checarPrecio() {
+            if (satoshis < 10) {
+                document.getElementById("Mineros").disabled = true;
+            } else {
+                document.getElementById("Mineros").disabled = false;
+            }
+            if (satoshis < 50) {
+                document.getElementById("Chinos").disabled = true;
+            } else {
+                document.getElementById("Chinos").disabled = false;
+            }
+            if (satoshis < 100) {
+                document.getElementById("Osos").disabled = true;
+            } else {
+                document.getElementById("Osos").disabled = false;
+            }
+            if (satoshis < 500) {
+                document.getElementById("Ballenas").disabled = true;
+            } else {
+                document.getElementById("Ballenas").disabled = false;
+            }
+        }
+
+        function ComprarCursor(a) {
+            if (satoshis >= 10 && a === 10) {
+                sumarSatoshis(1);
+                numMineros++;
+                if (numMineros < 11) {
+                    document.getElementById("Maquinas").innerHTML +=
+                        '<img src="8a3501a3a3f3efeb7f19346fd834e039.png" class="mineroMaquina">';
+                }
+            }
+            if (satoshis >= 50 && a === 50) {
+                sumarSatoshis(5);
+                numChinos++;
+                if (numChinos < 11) {
+                    document.getElementById("Maquinas2").innerHTML +=
+                        '<img src="chino.png" class="mineroMaquina">';
+                }
+            }
+            if (satoshis >= 100 && a === 100) {
+                sumarSatoshis(10);
+                numOsos++;
+                if (numOsos < 11) {
+                    document.getElementById("Maquinas3").innerHTML +=
+                        '<img src="sos.pn.png" class="mineroMaquina">';
+                }
+            }
+            if (satoshis >= 500 && a === 500) {
+                sumarSatoshis(50);
+                numBallenas++;
+                if (numBallenas < 11) {
+                    document.getElementById("Maquinas4").innerHTML +=
+                        '<img src="descargar.png" class="mineroMaquina">';
+                }
+            }
+            satoshis -= a;
+        }
+
+        function sumarSatoshis(e) {
+            satosuma += e;
+        }
+        var satoshisTiempo = [0, 0, 0, 0, 0, 0];
+        const labels = ["", "", "", "", "", ""];
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: "Satoshis",
+                backgroundColor: "rgb(255, 99, 132)",
+                borderColor: "rgb(255, 99, 132)",
+                data: satoshisTiempo,
+            }, ],
+        };
+        const config = {
+            type: "line",
+            data: data,
+            options: {},
+        };
+
+        var myChart = new Chart(document.getElementById("chart"), config);
+        data.datasets[index].data.push(Utils.rand(-100, 100));
+    </script>
+</body>
+
+</html>
